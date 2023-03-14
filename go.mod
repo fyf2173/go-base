@@ -9,15 +9,12 @@ require (
 	gorm.io/gorm v1.23.9
 )
 
-require (
-	github.com/mattn/go-sqlite3 v1.14.12 // indirect
-	github.com/rs/zerolog v1.21.0 // indirect
-)
+require github.com/mattn/go-sqlite3 v1.14.12 // indirect
 
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gofrs/uuid v4.3.0+incompatible
-	gitlab-ce.k8s.tools.vchangyi.com/common/go-toolbox v1.0.61
+	github.com/zc2638/swag v1.4.3
 )
 
 require (
@@ -60,7 +57,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220919173607-35f4265a4bc0 // indirect
 	golang.org/x/net v0.0.0-20220930213112-107f3e3c3b0b // indirect
 	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/text v0.3.7
+	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

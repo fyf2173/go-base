@@ -1,6 +1,8 @@
 package main
 
-import "go-base/cmd"
+import (
+	"go-base/cmd"
+)
 
 func main() {
 	cmd.Execute()

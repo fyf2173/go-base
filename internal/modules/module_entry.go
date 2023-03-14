@@ -3,16 +3,23 @@ package modules
 import (
 	example "go-base/internal/modules/example/http"
 
-	"github.com/fyf2173/ysdk-go/apisdk"
+	"github.com/gin-gonic/gin"
+	"github.com/zc2638/swag"
 )
 
-func ConsoleRoutes() []*apisdk.Route {
-	var routes []*apisdk.Route
-	routes = append(routes, example.Entries()...)
-	return routes
+var Rg = []RouterGroup{
+	{Group: "console", Endpoints: SwagEndpoints(), Mw: nil},
+	{Group: "app", Endpoints: SwagEndpoints(), Mw: nil},
 }
 
-func AppRoutes() []*apisdk.Route {
-	var routes []*apisdk.Route
-	return routes
+type RouterGroup struct {
+	Group     string
+	Endpoints []*swag.Endpoint
+	Mw        []gin.HandlerFunc
+}
+
+func SwagEndpoints() []*swag.Endpoint {
+	var endpoints []*swag.Endpoint
+	endpoints = append(endpoints, example.SwagEndpoints()...)
+	return endpoints
 }

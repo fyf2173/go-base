@@ -4,35 +4,49 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"go-base/internal/middleware"
+	"fmt"
 	"go-base/internal/modules"
 	"log"
+	"strings"
 
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
+	"github.com/zc2638/swag"
+	"github.com/zc2638/swag/option"
 )
 
 type httpcmd struct {
 	*baseCmd
 }
 
-func consoleHandler(r *gin.Engine) {
-	for _, v := range modules.ConsoleRoutes() {
-		var mw []gin.HandlerFunc
-		if middleware.CheckAuthIgnoreRegPath(middleware.AuthIgnorePath, v.Path) == false {
-			mw = append(mw, middleware.ParseTokenMw())
-		}
-		r.Group("console").Handle(v.Method, v.Path, v.Handler.(gin.HandlerFunc)).Use(mw...)
-	}
-	return
-}
+func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
+	api := swag.New(
+		option.Title("demo接口文档"),
+		option.Version(Version),
+		option.Host("http://localhost:2222"),
+		option.BasePath("/godemo/v1"),
+	)
 
-func appHandler(r *gin.Engine) {
-	for _, v := range modules.AppRoutes() {
-		r.Group("app").Handle(v.Method, v.Path, v.Handler.(gin.HandlerFunc))
+	var tmpRoutes []*swag.Endpoint
+	for _, rg := range rgs {
+		for _, ep := range rg.Endpoints {
+			ep.Path = fmt.Sprintf("/%s/%s", rg.Group, ep.Path)
+		}
+		tmpRoutes = append(tmpRoutes, rg.Endpoints...)
 	}
-	return
+	api.AddEndpoint(tmpRoutes...)
+
+	return func(r *gin.Engine) {
+		api.Walk(func(path string, e *swag.Endpoint) {
+			h := e.Handler.(func(ctx *gin.Context))
+			path = strings.TrimPrefix(swag.ColonPath(path), api.BasePath)
+			r.Group(api.BasePath).Handle(e.Method, path, h)
+		})
+
+		r.GET("/swagger/json", gin.WrapH(api.Handler()))
+		r.GET("/swagger/ui/*any", gin.WrapH(swag.UIHandler("/swagger/ui", "/swagger/json", true)))
+	}
 }
 
 func newhttpcmd() *httpcmd {
@@ -41,17 +55,10 @@ func newhttpcmd() *httpcmd {
 		Use:   "srv",
 		Short: "HTTP对外接口服务",
 		Run: func(cmd *cobra.Command, args []string) {
-			// config.InitConfigData()
-			// if err := xdb.InitGorm(config.CfgData.Mode, config.CfgData.Mysql); err != nil {
-			// 	panic(err)
-			// }
-
 			srv := ginplus.NewGinServer()
-			srv.RegisterHandler(consoleHandler, appHandler, func(r *gin.Engine) {
-				r.GET("/test", func(ctx *gin.Context) {
-					ginplus.ExitSuccess(ctx, "ok")
-				})
-			})
+			srv.RegisterHandler(
+				swaggerDocHandler(modules.Rg...),
+			)
 			log.Fatalln(srv.Start(":2222", func() {
 				log.Println("do nothing before exit")
 			}))

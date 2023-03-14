@@ -47,6 +47,7 @@ func Execute() {
 	newCommandsBuilder().addCommands(
 		newJobcmd(),
 		newhttpcmd(),
+		newVersioncmd(),
 	).build()
 	cobra.CheckErr(RootCmd.Execute())
 }
