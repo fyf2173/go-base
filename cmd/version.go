@@ -26,8 +26,8 @@ type versioncmd struct {
 	*baseCmd
 }
 
-func newVersioncmd() *jobcmd {
-	cc := &jobcmd{}
+func newVersioncmd() *versioncmd {
+	cc := &versioncmd{}
 	cc.baseCmd = newBaseCmd(&cobra.Command{
 		Use:   "version",
 		Short: "查看当前编译版本号",
