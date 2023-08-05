@@ -4,10 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"go-base/internal/modules"
 	"log"
-	"strings"
 
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
@@ -21,30 +19,23 @@ type httpcmd struct {
 }
 
 func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
-	api := swag.New(
+	doc := swag.New(
 		option.Title("demo接口文档"),
 		option.Version(Version),
 		option.Host("http://localhost:2222"),
 		option.BasePath("/godemo/v1"),
 	)
-
-	var tmpRoutes []*swag.Endpoint
-	for _, rg := range rgs {
-		for _, ep := range rg.Endpoints {
-			ep.Path = fmt.Sprintf("/%s/%s", rg.Group, ep.Path)
-		}
-		tmpRoutes = append(tmpRoutes, rg.Endpoints...)
-	}
-	api.AddEndpoint(tmpRoutes...)
-
 	return func(r *gin.Engine) {
-		api.Walk(func(path string, e *swag.Endpoint) {
-			h := e.Handler.(func(ctx *gin.Context))
-			path = strings.TrimPrefix(swag.ColonPath(path), api.BasePath)
-			r.Group(api.BasePath).Handle(e.Method, path, h)
-		})
+		router := r.Group(doc.BasePath)
+		for _, rg := range rgs {
+			g := router.Group(rg.Group, rg.Mw...)
+			for _, ep := range rg.Endpoints {
+				g.Handle(ep.Method, ep.Path, ep.Handler.(func(*gin.Context)))
+			}
 
-		r.GET("/swagger/json", gin.WrapH(api.Handler()))
+			doc.WithGroup(rg.Group).AddEndpoint(rg.Endpoints...)
+		}
+		r.GET("/swagger/json", gin.WrapH(doc.Handler()))
 		r.GET("/swagger/ui/*any", gin.WrapH(swag.UIHandler("/swagger/ui", "/swagger/json", true)))
 	}
 }

@@ -1,5 +1,7 @@
 package common
 
-import "github.com/gofrs/uuid"
+import "github.com/google/uuid"
 
-var Uid = uuid.Must(uuid.NewV4())
+func UID() uuid.UUID {
+	return uuid.Must(uuid.NewRandom())
+}

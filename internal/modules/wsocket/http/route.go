@@ -12,12 +12,12 @@ func SwagEndpoints() []*swag.Endpoint {
 	wsocket.InitHub()
 	return []*swag.Endpoint{
 		endpoint.New(
-			http.MethodGet, "/ws",
+			http.MethodGet, "/conn",
 			endpoint.Handler(connectWs),
+			endpoint.Tags("socket"),
 			endpoint.Summary("测试socket连接"),
-			endpoint.Tags("demo"),
-			endpoint.Description("Additional information on adding a pet to the store"),
-			endpoint.Response(http.StatusOK, "Successfully added pet", endpoint.Schema(map[string]interface{}{})),
+			endpoint.Description("测试socket连接"),
+			endpoint.Response(http.StatusOK, "success", endpoint.Schema(map[string]interface{}{})),
 		),
 	}
 }

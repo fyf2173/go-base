@@ -4,24 +4,35 @@ import (
 	"testing"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestNewToken(t *testing.T) {
-	t.Log(jwt.NewWithClaims(jwt.SigningMethodHS256, Claim{UserClaim: UserClaim{UserId: 10000, Openid: "abcd"}}).SignedString([]byte(SignedString)))
-	// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwMDAwLCJPcGVuaWQiOiJhYmNkIn0.SEDgidMh6l6G7F_4hBL2d_8zWcuGoBaG2PV2xBEgjKs
+func TestMiniappToken(t *testing.T) {
+	miniappClaim := Claim{UserClaim: UserClaim{UserId: 10000, Openid: "abcd"}, AuthClient: "miniapp"}
+	jwtToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, miniappClaim).SignedString([]byte(SignedString))
+	assert.Nil(t, err, "NewWithClaims is not nil")
+
+	var newClaim Claim
+	tokenInfo, err := jwt.ParseWithClaims(jwtToken, &newClaim, func(t *jwt.Token) (interface{}, error) { return []byte(SignedString), nil })
+	assert.Nil(t, err, "ParseWithClaims return err")
+
+	assert.True(t, tokenInfo.Valid, "tokenInfo is not valid")
+
+	assert.Equal(t, int64(10000), newClaim.UserClaim.UserId)
+	assert.Equal(t, "abcd", newClaim.UserClaim.Openid)
 }
 
-func TestParseToken(t *testing.T) {
-	var (
-		tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwMDAwLCJPcGVuaWQiOiJhYmNkIn0.SEDgidMh6l6G7F_4hBL2d_8zWcuGoBaG2PV2xBEgjKs"
-		claim    Claim
-	)
-	tokenInfo, err := jwt.ParseWithClaims(tokenStr, &claim, func(t *jwt.Token) (interface{}, error) {
-		return []byte(SignedString), nil
-	})
-	t.Log(err)
-	t.Logf("%#v", tokenInfo)
-	t.Logf("%+v", claim.Valid())
-	t.Logf("valide:%v %#v", tokenInfo.Claims.Valid(), tokenInfo.Claims.(*Claim))
-	t.Log(claim)
+func TestConsoleToken(t *testing.T) {
+	miniappClaim := Claim{AdminClaim: AdminClaim{Id: 10000, Name: "abcd"}, AuthClient: "miniapp"}
+	jwtToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, miniappClaim).SignedString([]byte(SignedString))
+	assert.Nil(t, err, "NewWithClaims is not nil")
+
+	var newClaim Claim
+	tokenInfo, err := jwt.ParseWithClaims(jwtToken, &newClaim, func(t *jwt.Token) (interface{}, error) { return []byte(SignedString), nil })
+	assert.Nil(t, err, "ParseWithClaims return err")
+
+	assert.True(t, tokenInfo.Valid, "tokenInfo is not valid")
+
+	assert.Equal(t, int64(10000), newClaim.AdminClaim.Id)
+	assert.Equal(t, "abcd", newClaim.AdminClaim.Name)
 }

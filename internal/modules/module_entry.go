@@ -1,6 +1,8 @@
 package modules
 
 import (
+	"go-base/internal/middleware"
+	"go-base/internal/modules/example/api"
 	example "go-base/internal/modules/example/http"
 	wsocket "go-base/internal/modules/wsocket/http"
 
@@ -8,9 +10,14 @@ import (
 	"github.com/zc2638/swag"
 )
 
+var consoleIgnoreAuthPaths = []string{
+	"console/example/test-ignore-auth",
+	"console/example/test-get-token",
+}
+
 var Rg = []RouterGroup{
-	{Group: "console", Endpoints: SwagEndpoints(), Mw: nil},
-	{Group: "app", Endpoints: SwagEndpoints(), Mw: nil},
+	{Group: "console", Endpoints: SwagEndpoints(), Mw: []gin.HandlerFunc{middleware.CommonTokenMw(consoleIgnoreAuthPaths...)}},
+	{Group: "service", Endpoints: ServiceEndpoints(), Mw: nil},
 }
 
 type RouterGroup struct {
@@ -23,5 +30,11 @@ func SwagEndpoints() []*swag.Endpoint {
 	var endpoints []*swag.Endpoint
 	endpoints = append(endpoints, example.SwagEndpoints()...)
 	endpoints = append(endpoints, wsocket.SwagEndpoints()...)
+	return endpoints
+}
+
+func ServiceEndpoints() []*swag.Endpoint {
+	var endpoints []*swag.Endpoint
+	endpoints = append(endpoints, api.SwagEndpoints()...)
 	return endpoints
 }

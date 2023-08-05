@@ -4,7 +4,11 @@
 
 package wsocket
 
+import "sync"
+
 var HubInstance *Hub
+
+var once sync.Once
 
 // Hub maintains the set of active clients and broadcasts messages to the
 // clients.
@@ -23,8 +27,10 @@ type Hub struct {
 }
 
 func InitHub() {
-	HubInstance = newHub()
-	go HubInstance.run()
+	once.Do(func() {
+		HubInstance = newHub()
+		go HubInstance.run()
+	})
 }
 
 func newHub() *Hub {

@@ -1,7 +1,13 @@
 package common
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/google/uuid"
+)
 
 func TestNewUUid(t *testing.T) {
-	t.Log(Uid.Value())
+	for i := 0; i <= 2; i++ {
+		t.Log(uuid.New())
+	}
 }

@@ -2,7 +2,7 @@ package common
 
 import "github.com/dgrijalva/jwt-go"
 
-const SignedString = "microkepler"
+const SignedString = "go-base"
 
 const (
 	AuthClientApp     = "miniapp"
