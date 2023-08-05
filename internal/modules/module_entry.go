@@ -2,6 +2,7 @@ package modules
 
 import (
 	example "go-base/internal/modules/example/http"
+	wsocket "go-base/internal/modules/wsocket/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/zc2638/swag"
@@ -21,5 +22,6 @@ type RouterGroup struct {
 func SwagEndpoints() []*swag.Endpoint {
 	var endpoints []*swag.Endpoint
 	endpoints = append(endpoints, example.SwagEndpoints()...)
+	endpoints = append(endpoints, wsocket.SwagEndpoints()...)
 	return endpoints
 }

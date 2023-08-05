@@ -1,6 +1,6 @@
 mode: "dev"
 db:
-  dirver: "sqlite3"
+  driver: "sqlite3"
   master_dsn: "go-base/resources/go-base.db"
   log: true
   pool:

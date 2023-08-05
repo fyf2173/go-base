@@ -10,12 +10,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var AuthIgnorePath = map[string]bool{
-	"/v1/user/gettoken": true,
-	"/v1/example/test":  false,
-	"/v1/sku/.*":        true,
-	"/v1/goods/.*":      true,
-}
+var AuthIgnorePath = map[string]bool{}
 
 func CheckAuthIgnoreRegPath(regSets map[string]bool, path string) bool {
 	for rstr := range regSets {
