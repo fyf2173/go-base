@@ -2,8 +2,8 @@ package modules
 
 import (
 	"go-base/internal/middleware"
-	"go-base/internal/modules/example/api"
-	example "go-base/internal/modules/example/http"
+	exampleApi "go-base/internal/modules/example/api"
+	exampleHttp "go-base/internal/modules/example/http"
 	wsocket "go-base/internal/modules/wsocket/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,13 +28,13 @@ type RouterGroup struct {
 
 func SwagEndpoints() []*swag.Endpoint {
 	var endpoints []*swag.Endpoint
-	endpoints = append(endpoints, example.SwagEndpoints()...)
+	endpoints = append(endpoints, exampleHttp.SwagEndpoints()...)
 	endpoints = append(endpoints, wsocket.SwagEndpoints()...)
 	return endpoints
 }
 
 func ServiceEndpoints() []*swag.Endpoint {
 	var endpoints []*swag.Endpoint
-	endpoints = append(endpoints, api.SwagEndpoints()...)
+	endpoints = append(endpoints, exampleApi.SwagEndpoints()...)
 	return endpoints
 }
