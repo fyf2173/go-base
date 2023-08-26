@@ -5,6 +5,8 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	"github.com/fyf2173/ysdk-go/cmder"
 	"go-base/internal/pkg/job"
 
 	"github.com/sirupsen/logrus"
@@ -12,19 +14,21 @@ import (
 )
 
 type jobcmd struct {
-	*baseCmd
-	subcmd string
+	*cmder.BaseCmd
+	subcmd  string
+	subspec string
 }
 
 func newJobcmd() *jobcmd {
 	cc := &jobcmd{}
-	cc.baseCmd = newBaseCmd(&cobra.Command{
+	cc.BaseCmd = cmder.NewBaseCmd(&cobra.Command{
 		Use:   "job",
 		Short: "script脚本命令",
 		Run: func(cmd *cobra.Command, args []string) {
 			logrus.SetFormatter(&logrus.JSONFormatter{})
 			runner := job.NewRunner()
 			runner.Add("test", func(ctx context.Context) error {
+				fmt.Println("------------------", cc.subspec)
 				return nil
 			})
 
@@ -35,6 +39,7 @@ func newJobcmd() *jobcmd {
 			logrus.Printf("---------------------- 任务[%s]执行完成 ----------------------", cc.subcmd)
 		},
 	})
-	cc.cmd.Flags().StringVar(&cc.subcmd, "subcmd", "", "需要执行的子命令")
+	cc.BaseCmd.Cmd.Flags().StringVar(&cc.subcmd, "subcmd", "", "需要执行的子命令")
+	cc.BaseCmd.Cmd.Flags().StringVar(&cc.subspec, "subspec", "", "需要执行的子命令的参数")
 	return cc
 }

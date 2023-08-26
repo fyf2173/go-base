@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/fyf2173/ysdk-go/cmder"
 
 	"github.com/spf13/cobra"
 )
@@ -23,12 +24,12 @@ func String() string {
 }
 
 type versioncmd struct {
-	*baseCmd
+	*cmder.BaseCmd
 }
 
 func newVersioncmd() *versioncmd {
 	cc := &versioncmd{}
-	cc.baseCmd = newBaseCmd(&cobra.Command{
+	cc.BaseCmd = cmder.NewBaseCmd(&cobra.Command{
 		Use:   "version",
 		Short: "查看当前编译版本号",
 		Run: func(cmd *cobra.Command, args []string) {

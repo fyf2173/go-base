@@ -3,8 +3,8 @@ module go-base
 go 1.18
 
 require (
-	github.com/fyf2173/ysdk-go v0.0.0-20220920154841-2de49a5a415d
-	github.com/spf13/cobra v1.5.0
+	github.com/fyf2173/ysdk-go v0.0.0-20230826020552-e70c0676cb14
+	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.13.0
 	gorm.io/gorm v1.23.9
 )
@@ -39,7 +39,7 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
@@ -72,6 +72,6 @@ require (
 	gorm.io/driver/mysql v1.3.6 // indirect
 )
 
-replace github.com/fyf2173/ysdk-go v0.0.0-20220920154841-2de49a5a415d => C:\\SDcard\\project\\golang\\ysdk-go
+//replace github.com/fyf2173/ysdk-go v0.0.0-20220920154841-2de49a5a415d => C:\\SDcard\\project\\golang\\ysdk-go
 
-replace github.com/fyf2173/gokepler v0.0.0-20221015043101-de6180cca13d => C:\\SDcard\\project\\golang\\gokepler
+//replace github.com/fyf2173/gokepler v0.0.0-20221015043101-de6180cca13d => C:\\SDcard\\project\\golang\\gokepler

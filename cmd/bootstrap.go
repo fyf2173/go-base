@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/fyf2173/ysdk-go/cmder"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -44,12 +45,13 @@ var RootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	newCommandsBuilder().addCommands(
-		newJobcmd(),
-		newhttpcmd(),
-		newVersioncmd(),
-	).build()
-	cobra.CheckErr(RootCmd.Execute())
+	err := cmder.NewCommandBuilder(RootCmd).
+		AddCommands(
+			newJobcmd(),
+			newhttpcmd(),
+			newVersioncmd(),
+		).Build()
+	cobra.CheckErr(err)
 }
 
 func init() {
@@ -81,66 +83,4 @@ func initConfig() {
 	}
 	fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 
-}
-
-type cmder interface {
-	getCommand() *cobra.Command
-}
-
-func newCommandsBuilder() *commandsBuilder {
-	return &commandsBuilder{}
-}
-
-type commandsBuilder struct {
-	commands []cmder
-}
-
-func (b *commandsBuilder) addCommands(commands ...cmder) *commandsBuilder {
-	b.commands = append(b.commands, commands...)
-	return b
-}
-
-func addCommands(root *cobra.Command, commands ...cmder) {
-	for _, command := range commands {
-		subcmd := command.getCommand()
-		if subcmd == nil {
-			continue
-		}
-		root.AddCommand(subcmd)
-	}
-}
-
-func (b *commandsBuilder) build() *cobra.Command {
-	h := RootCmd
-	addCommands(h, b.commands...)
-	return h
-}
-
-type baseCmd struct {
-	cmd    *cobra.Command
-	config string
-}
-
-var _ commandsBuilderGetter = (*baseBuilderCmd)(nil)
-
-// Used in tests.
-type commandsBuilderGetter interface {
-	getCommandsBuilder() *commandsBuilder
-}
-
-type baseBuilderCmd struct {
-	*baseCmd
-	*commandsBuilder
-}
-
-func (b *baseBuilderCmd) getCommandsBuilder() *commandsBuilder {
-	return b.commandsBuilder
-}
-
-func (c *baseCmd) getCommand() *cobra.Command {
-	return c.cmd
-}
-
-func newBaseCmd(cmd *cobra.Command) *baseCmd {
-	return &baseCmd{cmd: cmd}
 }

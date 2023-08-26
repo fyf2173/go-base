@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"github.com/fyf2173/ysdk-go/cmder"
 	"go-base/internal/modules"
 	"log"
 
@@ -15,7 +16,7 @@ import (
 )
 
 type httpcmd struct {
-	*baseCmd
+	*cmder.BaseCmd
 }
 
 func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
@@ -42,7 +43,7 @@ func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
 
 func newhttpcmd() *httpcmd {
 	cc := &httpcmd{}
-	cc.baseCmd = newBaseCmd(&cobra.Command{
+	cc.BaseCmd = cmder.NewBaseCmd(&cobra.Command{
 		Use:   "srv",
 		Short: "HTTP对外接口服务",
 		Run: func(cmd *cobra.Command, args []string) {
