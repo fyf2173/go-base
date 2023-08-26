@@ -6,7 +6,10 @@ package cmd
 import (
 	"github.com/fyf2173/ysdk-go/cmder"
 	"go-base/internal/modules"
+	"go-base/internal/orm"
 	"log"
+	"log/slog"
+	"os"
 
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
@@ -47,6 +50,8 @@ func newhttpcmd() *httpcmd {
 		Use:   "srv",
 		Short: "HTTP对外接口服务",
 		Run: func(cmd *cobra.Command, args []string) {
+			slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stderr, nil)))
+			orm.InitConn()
 			srv := ginplus.NewGinServer()
 			srv.RegisterHandler(
 				swaggerDocHandler(modules.Rg...),

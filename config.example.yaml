@@ -1,7 +1,7 @@
 mode: "dev"
 db:
-  driver: "sqlite3"
-  master_dsn: "go-base/resources/go-base.db"
+  driver: "mysql"
+  master_dsn: "root:root@tcp(127.0.0.1:3306)/test"
   log: true
   pool:
     max_idle_conns: 0

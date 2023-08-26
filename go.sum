@@ -64,8 +64,8 @@ github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7
 github.com/frankban/quicktest v1.14.3 h1:FJKSZTDHjyhriyC81FLQ0LY93eSai0ZyR/ZIkd3ZUKE=
 github.com/fsnotify/fsnotify v1.5.4 h1:jRbGcIw6P2Meqdwuo0H1p6JVLbL5DHKAKlYndzMwVZI=
 github.com/fsnotify/fsnotify v1.5.4/go.mod h1:OVB6XrOHzAwXMpEM7uPOzcehqUV2UqJxmVXmkdnm1bU=
-github.com/fyf2173/ysdk-go v0.0.0-20230826020552-e70c0676cb14 h1:o8lPfUI1lsb1V3GqjQ7WyUK8dCzbIUkJACI5aENWjf8=
-github.com/fyf2173/ysdk-go v0.0.0-20230826020552-e70c0676cb14/go.mod h1:pOKOHoheT2LeS9V5mWPHkvUOIYzXvN9b/TVkYeB82cQ=
+github.com/fyf2173/ysdk-go v0.0.0-20230826110412-da4bd8c9253e h1:omrn4kIVSYMPk55eVzLx1Xp1FQgae3ZUANdcc5x79S0=
+github.com/fyf2173/ysdk-go v0.0.0-20230826110412-da4bd8c9253e/go.mod h1:pOKOHoheT2LeS9V5mWPHkvUOIYzXvN9b/TVkYeB82cQ=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/gin-gonic/gin v1.8.1 h1:4+fr/el88TOO3ewCmQr8cx/CtZ/umlIRIs5M4NTNjf8=

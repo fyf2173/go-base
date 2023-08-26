@@ -4,7 +4,6 @@ import (
 	"context"
 	"go-base/internal/pkg/common"
 
-	"github.com/fyf2173/ysdk-go/xdb"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
@@ -33,24 +32,24 @@ type GormConn func(db *gorm.DB) *gorm.DB
 // GetConn 获取查询连接
 func GetConnWithContext(table schema.Tabler) GormConnWithContext {
 	return func(ctx context.Context, db *gorm.DB) *gorm.DB {
-		return xdb.OrmInstance().WithContext(ctx).Table(table.TableName())
+		return instance.WithContext(ctx).Table(table.TableName())
 	}
 }
 
 func GetConn(table schema.Tabler) GormConn {
 	return func(db *gorm.DB) *gorm.DB {
-		return xdb.OrmInstance().Table(table.TableName())
+		return instance.Table(table.TableName())
 	}
 }
 
 // GetTableConnWithCtx 获取带table的连接
 func GetTableConnWithCtx(ctx context.Context, table schema.Tabler) *gorm.DB {
-	return xdb.OrmInstance().WithContext(ctx).Table(table.TableName())
+	return instance.WithContext(ctx).Table(table.TableName())
 }
 
 // GetTableConn 获取带table的连接
 func GetTableConn(table schema.Tabler) *gorm.DB {
-	return xdb.OrmInstance().Table(table.TableName())
+	return instance.Table(table.TableName())
 }
 
 // GetTableTrans 获取带table的事务连接
@@ -60,7 +59,7 @@ func GetTableTrans(table schema.Tabler, tx *gorm.DB) *gorm.DB {
 
 // ExecTrans 执行事务
 func ExecTrans(ctx context.Context, fn func(tx *gorm.DB) error) error {
-	return xdb.OrmInstance().WithContext(ctx).Transaction(fn)
+	return instance.WithContext(ctx).Transaction(fn)
 }
 
 // WithPagination 翻页查询
