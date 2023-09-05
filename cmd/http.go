@@ -4,12 +4,13 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/fyf2173/ysdk-go/cmder"
 	"go-base/internal/modules"
 	"go-base/internal/orm"
 	"log"
 	"log/slog"
 	"os"
+
+	"github.com/fyf2173/ysdk-go/cmder"
 
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
@@ -37,7 +38,7 @@ func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
 				g.Handle(ep.Method, ep.Path, ep.Handler.(func(*gin.Context)))
 			}
 
-			doc.WithGroup(rg.Group).AddEndpoint(rg.Endpoints...)
+			doc.WithGroup("/" + rg.Group).AddEndpoint(rg.Endpoints...)
 		}
 		r.GET("/swagger/json", gin.WrapH(doc.Handler()))
 		r.GET("/swagger/ui/*any", gin.WrapH(swag.UIHandler("/swagger/ui", "/swagger/json", true)))

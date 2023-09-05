@@ -1,6 +1,6 @@
 module go-base
 
-go 1.18
+go 1.19
 
 require (
 	github.com/fyf2173/ysdk-go v0.0.0-20230826110412-da4bd8c9253e

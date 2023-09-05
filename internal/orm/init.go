@@ -1,10 +1,11 @@
 package orm
 
 import (
+	"sync"
+
 	"github.com/fyf2173/ysdk-go/util"
 	"github.com/fyf2173/ysdk-go/xdb"
 	"gorm.io/gorm"
-	"sync"
 )
 
 var instance *gorm.DB
