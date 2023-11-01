@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-type Handler func(context.Context) error
+type Handler func(context.Context, []string) error
 
 type Runner struct {
 	handlers map[string]Handler
@@ -21,10 +21,10 @@ func (r *Runner) Add(name string, handler Handler) {
 	r.handlers[name] = handler
 }
 
-func (r *Runner) Exec(name string) error {
+func (r *Runner) Exec(name string, args []string) error {
 	if name == "" {
 		return fmt.Errorf("unsupported handler")
 	}
 	f := r.handlers[name]
-	return f(context.Background())
+	return f(context.Background(), args)
 }

@@ -6,15 +6,15 @@ package cmd
 import (
 	"go-base/internal/modules"
 	"go-base/internal/orm"
-	"log"
-	"log/slog"
-	"os"
 
 	"github.com/fyf2173/ysdk-go/cmder"
+	"github.com/fyf2173/ysdk-go/xctx"
+	"github.com/fyf2173/ysdk-go/xlog"
 
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/zc2638/swag"
 	"github.com/zc2638/swag/option"
 )
@@ -51,14 +51,15 @@ func newhttpcmd() *httpcmd {
 		Use:   "srv",
 		Short: "HTTP对外接口服务",
 		Run: func(cmd *cobra.Command, args []string) {
-			slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stderr, nil)))
+			xlog.Init(viper.GetString("logger.level"), viper.GetBool("logger.add_source"))
 			orm.InitConn()
 			srv := ginplus.NewGinServer()
 			srv.RegisterHandler(
 				swaggerDocHandler(modules.Rg...),
 			)
-			log.Fatalln(srv.Start(":2222", func() {
-				log.Println("do nothing before exit")
+			cc := xctx.New()
+			xlog.Error(cc, srv.Start(":2222", func() {
+				xlog.Info(cc, "do nothing before exit")
 			}))
 		},
 	})
