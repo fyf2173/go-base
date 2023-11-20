@@ -1,4 +1,7 @@
-mode: "dev"
+env: "dev"
+mode: "debug"
+data_driver: "mysql|sqlite3"
+
 db:
   driver: "mysql"
   master_dsn: "root:root@tcp(127.0.0.1:3306)/test"
@@ -7,6 +10,11 @@ db:
     max_idle_conns: 0
     max_open_conns: 0
     conn_max_lifetime: 0
+    
 sqlite:
   dsn: "go-base/resources/go-base.db"
   log: true
+
+logger:
+  level: "error"
+  add_source: true

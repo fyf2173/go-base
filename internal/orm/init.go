@@ -5,6 +5,8 @@ import (
 
 	"github.com/fyf2173/ysdk-go/util"
 	"github.com/fyf2173/ysdk-go/xdb"
+	"github.com/spf13/viper"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -13,11 +15,20 @@ var once sync.Once
 
 func InitConn() {
 	once.Do(func() {
-		db, err := xdb.NewGorm(util.ViperMustGetNode("env", ""), util.ViperMustGetNode("db", xdb.DbConfig{}))
-		if err != nil {
-			panic(err)
+		if viper.GetString("data_driver") == "sqlite3" {
+			db, err := gorm.Open(sqlite.Open(viper.GetString("sqliteDsn")), &gorm.Config{})
+			if err != nil {
+				panic(err)
+			}
+			instance = db
 		}
-		instance = db
+		if viper.GetString("data_driver") == "mysql" {
+			db, err := xdb.NewGorm(viper.GetString("env"), util.ViperMustGetNode("db", xdb.DbConfig{}))
+			if err != nil {
+				panic(err)
+			}
+			instance = db
+		}
 	})
 	return
 }

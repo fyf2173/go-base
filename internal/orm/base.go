@@ -2,7 +2,6 @@ package orm
 
 import (
 	"context"
-	"go-base/internal/pkg/common"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -36,24 +35,13 @@ func GetConnWithContext(table schema.Tabler) GormConnWithContext {
 	}
 }
 
-func GetConn(table schema.Tabler) GormConn {
-	return func(db *gorm.DB) *gorm.DB {
-		return instance.Table(table.TableName())
-	}
-}
-
 // GetTableConnWithCtx 获取带table的连接
 func GetTableConnWithCtx(ctx context.Context, table schema.Tabler) *gorm.DB {
 	return instance.WithContext(ctx).Table(table.TableName())
 }
 
-// GetTableConn 获取带table的连接
-func GetTableConn(table schema.Tabler) *gorm.DB {
-	return instance.Table(table.TableName())
-}
-
 // GetTableTrans 获取带table的事务连接
-func GetTableTrans(table schema.Tabler, tx *gorm.DB) *gorm.DB {
+func GetTableTrans(tx *gorm.DB, table schema.Tabler) *gorm.DB {
 	return tx.Table(table.TableName())
 }
 
@@ -63,11 +51,13 @@ func ExecTrans(ctx context.Context, fn func(tx *gorm.DB) error) error {
 }
 
 // WithPagination 翻页查询
-func WithPagination(pg common.Pagination) GormConn {
-	pg.HandleOffset()
+func WithPagination(page, size int) GormConn {
 	return func(db *gorm.DB) *gorm.DB {
-		if pg.Size > 0 {
-			return db.Offset(pg.Offset).Limit(pg.Size)
+		if page <= 0 {
+			page = 1
+		}
+		if size > 0 {
+			return db.Offset((page - 1) * size).Limit(size)
 		}
 		return db
 	}
