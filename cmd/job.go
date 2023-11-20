@@ -19,8 +19,7 @@ import (
 
 type jobcmd struct {
 	*cmder.BaseCmd
-	subcmd  string
-	subspec []string
+	job.Job
 }
 
 func newJobcmd() *jobcmd {
@@ -33,20 +32,18 @@ func newJobcmd() *jobcmd {
 			ctx := xctx.New()
 			runner := job.NewRunner()
 			runner.Add("test", func(ctx context.Context, args []string) error {
-				fmt.Println("------------------", cc.subspec)
+				fmt.Println("------------------", args, xctx.CtxId(ctx))
 				return nil
 			})
 
-			if err := runner.Exec(cc.subcmd, cc.subspec); err != nil {
-				xlog.Error(ctx, fmt.Errorf("执行子命令[%s]失败，err=%s", cc.subcmd, err), slog.Any("subspec", cc.subspec))
+			if err := runner.ExecJob(ctx, cc.Job); err != nil {
+				xlog.Error(ctx, fmt.Errorf("执行子命令[%s]失败，err=%s", cc.Job, err), slog.Any("subspec", cc.Args))
 				return
 			}
-			xlog.Info(ctx, "---------------------- 任务[%s]执行完成 ----------------------",
-				slog.String("subcmd", cc.subcmd),
-				slog.Any("subspec", cc.subspec))
+			xlog.Info(ctx, "---------------------- 任务[%s]执行完成 ----------------------", slog.Any("job", cc.Job))
 		},
 	})
-	cc.BaseCmd.Cmd.Flags().StringVar(&cc.subcmd, "subcmd", "", "需要执行的子命令")
-	cc.BaseCmd.Cmd.Flags().StringArrayVar(&cc.subspec, "subspec", nil, "需要执行的子命令的参数")
+	cc.BaseCmd.Cmd.Flags().StringVar(&cc.Job.Cmd, "subcmd", "", "需要执行的子命令")
+	cc.BaseCmd.Cmd.Flags().StringArrayVar(&cc.Job.Args, "subspec", nil, "需要执行的子命令的参数")
 	return cc
 }
