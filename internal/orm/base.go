@@ -24,16 +24,7 @@ type DeletedAtModel struct {
 	DeletedAt int64 `json:"deleted_at" gorm:"column:deleted_at;type:int(10);not null;default:0"`
 }
 
-type GormConnWithContext func(ctx context.Context, db *gorm.DB) *gorm.DB
-
 type GormConn func(db *gorm.DB) *gorm.DB
-
-// GetConn 获取查询连接
-func GetConnWithContext(table schema.Tabler) GormConnWithContext {
-	return func(ctx context.Context, db *gorm.DB) *gorm.DB {
-		return instance.WithContext(ctx).Table(table.TableName())
-	}
-}
 
 // GetTableConnWithCtx 获取带table的连接
 func GetTableConnWithCtx(ctx context.Context, table schema.Tabler) *gorm.DB {

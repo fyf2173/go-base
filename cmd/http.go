@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"go-base/internal/middleware"
 	"go-base/internal/modules"
 	"go-base/internal/orm"
 
@@ -32,6 +33,7 @@ func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
 	)
 	return func(r *gin.Engine) {
 		router := r.Group(doc.BasePath)
+		router.Use(middleware.Access(), gin.Recovery())
 		for _, rg := range rgs {
 			g := router.Group(rg.Group, rg.Mw...)
 			for _, ep := range rg.Endpoints {

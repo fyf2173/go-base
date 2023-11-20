@@ -8,7 +8,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 )
+
+// Access 生成唯一的traceId
+func Access() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		traceId := ctx.GetHeader("traceId")
+		if traceId == "" {
+			traceId = uuid.New().String()
+		}
+		ctx.Set("traceId", traceId)
+		ctx.Next()
+	}
+}
 
 func CheckAuthIgnoreRegPath(regSets []string, path string) bool {
 	for _, rstr := range regSets {
