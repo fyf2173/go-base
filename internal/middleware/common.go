@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/fyf2173/ysdk-go/xctx"
+	"github.com/fyf2173/ysdk-go/xhttp"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
@@ -14,11 +16,11 @@ import (
 // Access 生成唯一的traceId
 func Access() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		traceId := ctx.GetHeader("traceId")
+		traceId := ctx.GetHeader(xhttp.HeaderTraceId)
 		if traceId == "" {
 			traceId = uuid.New().String()
 		}
-		ctx.Set("traceId", traceId)
+		ctx.Set(xctx.TraceId, traceId)
 		ctx.Next()
 	}
 }

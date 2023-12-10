@@ -73,6 +73,8 @@ github.com/fsnotify/fsnotify v1.5.4 h1:jRbGcIw6P2Meqdwuo0H1p6JVLbL5DHKAKlYndzMwV
 github.com/fsnotify/fsnotify v1.5.4/go.mod h1:OVB6XrOHzAwXMpEM7uPOzcehqUV2UqJxmVXmkdnm1bU=
 github.com/fyf2173/ysdk-go v0.0.0-20231101102355-9dc7e02df877 h1:96Gj5fbM5S5vI6vylUU5BIvylSQNMmN9hFNH3a+qexM=
 github.com/fyf2173/ysdk-go v0.0.0-20231101102355-9dc7e02df877/go.mod h1:e/Wcm0wG20GeUxpZP5ATlKrTpqWgNkEw5otrtx6VsgY=
+github.com/fyf2173/ysdk-go v0.0.0-20231207064228-b546720c7b11 h1:ld3PWGkLGWXfNf28M9IEk6YtOXnUW+FQuHrK7TNQumo=
+github.com/fyf2173/ysdk-go v0.0.0-20231207064228-b546720c7b11/go.mod h1:e/Wcm0wG20GeUxpZP5ATlKrTpqWgNkEw5otrtx6VsgY=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/gin-gonic/gin v1.8.1 h1:4+fr/el88TOO3ewCmQr8cx/CtZ/umlIRIs5M4NTNjf8=

@@ -3,7 +3,7 @@ module go-base
 go 1.21
 
 require (
-	github.com/fyf2173/ysdk-go v0.0.0-20231101102355-9dc7e02df877
+	github.com/fyf2173/ysdk-go v0.0.0-20231207064228-b546720c7b11
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.13.0
 	gorm.io/gorm v1.25.2-0.20230530020048-26663ab9bf55
