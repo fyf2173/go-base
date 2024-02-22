@@ -1,5 +1,6 @@
 一款golang的项目开发目录结构，简洁明了，非常适模块化业务的开发。
 
+```sh
 ./go-base
 ├─cmd
 ├─internal
@@ -19,3 +20,4 @@
 │      ├─common
 │      └─job
 └─resources
+```
