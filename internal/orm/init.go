@@ -11,6 +11,7 @@ import (
 )
 
 var instance *gorm.DB
+
 var once sync.Once
 
 func InitConn() {

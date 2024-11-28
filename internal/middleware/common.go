@@ -13,14 +13,14 @@ import (
 	"github.com/google/uuid"
 )
 
-// Access 生成唯一的traceId
+// Access 生成唯一的traceId.
 func Access() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		traceId := ctx.GetHeader(xhttp.HeaderTraceId)
-		if traceId == "" {
-			traceId = uuid.New().String()
+		traceID := ctx.GetHeader(xhttp.HeaderTraceId)
+		if traceID == "" {
+			traceID = uuid.New().String()
 		}
-		ctx.Set(xctx.TraceId, traceId)
+		ctx.Set(xctx.TraceId, traceID)
 		ctx.Next()
 	}
 }
@@ -40,14 +40,14 @@ func CommonTokenMw(ignoreAuthPaths ...string) gin.HandlerFunc {
 			tokenStr = ctx.GetHeader("token")
 			claim    common.Claim
 		)
-		if CheckAuthIgnoreRegPath(ignoreAuthPaths, ctx.Request.URL.Path) == true {
+		if CheckAuthIgnoreRegPath(ignoreAuthPaths, ctx.Request.URL.Path) {
 			ctx.Next()
 			return
 		}
 		if tokenStr == "" {
 			tokenStr = ctx.Query("token")
 		}
-		token, err := jwt.ParseWithClaims(tokenStr, &claim, func(t *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenStr, &claim, func(*jwt.Token) (interface{}, error) {
 			return []byte(common.SignedString), nil
 		})
 		if err != nil {

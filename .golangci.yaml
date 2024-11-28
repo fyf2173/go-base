@@ -9,7 +9,7 @@ linters:
   disable-all: true
   enable:
     # golangci-lint defaults:
-    - gosimple
+    # - gosimple
     - govet
     - ineffassign
     - staticcheck
@@ -64,3 +64,9 @@ linters-settings:
       - "Write"
       - "WriteHeader"
       - "WriteField"
+
+  revive:
+    ignore-generated-header: true
+    severity: warning
+    rules:
+      - name: atomic

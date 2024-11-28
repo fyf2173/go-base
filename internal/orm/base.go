@@ -7,8 +7,9 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// DatetimeFormat 时间格式
+// DatetimeFormat 时间格式.
 var DatetimeFormat = "2006-01-02 15:04:05"
+
 var TimeZero = "0000-00-00 00:00:00"
 
 type IdModel struct {
@@ -26,22 +27,22 @@ type DeletedAtModel struct {
 
 type GormConn func(db *gorm.DB) *gorm.DB
 
-// GetTableConnWithCtx 获取带table的连接
+// GetTableConnWithCtx 获取带table的连接.
 func GetTableConnWithCtx(ctx context.Context, table schema.Tabler) *gorm.DB {
 	return instance.WithContext(ctx).Table(table.TableName())
 }
 
-// GetTableTrans 获取带table的事务连接
+// GetTableTrans 获取带table的事务连接.
 func GetTableTrans(tx *gorm.DB, table schema.Tabler) *gorm.DB {
 	return tx.Table(table.TableName())
 }
 
-// ExecTrans 执行事务
+// ExecTrans 执行事务.
 func ExecTrans(ctx context.Context, fn func(tx *gorm.DB) error) error {
 	return instance.WithContext(ctx).Transaction(fn)
 }
 
-// WithPagination 翻页查询
+// WithPagination 翻页查询.
 func WithPagination(page, size int) GormConn {
 	return func(db *gorm.DB) *gorm.DB {
 		if page <= 0 {
