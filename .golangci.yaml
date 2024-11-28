@@ -14,6 +14,13 @@ linters:
     - ineffassign
     - staticcheck
     - unused
+    - dupl
+    # - errcheck
+    - godot
+    - goimports
+    - misspell
+    - revive
+    - typecheck
 
     # Our own extras:
     - gofumpt
