@@ -5,7 +5,7 @@ go 1.21.0
 toolchain go1.23.3
 
 require (
-	github.com/fyf2173/ysdk-go v0.0.0-20231207064228-b546720c7b11
+	github.com/fyf2173/ysdk-go v0.0.0-20240315035133-b20fcc2329f7
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.13.0
 	gorm.io/gorm v1.25.2-0.20230530020048-26663ab9bf55
@@ -30,6 +30,8 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/arch v0.12.0 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
 

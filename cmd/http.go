@@ -12,6 +12,9 @@ import (
 	"github.com/fyf2173/ysdk-go/xctx"
 	"github.com/fyf2173/ysdk-go/xlog"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	"github.com/fyf2173/ysdk-go/apisdk/ginplus"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
@@ -28,7 +31,7 @@ func swaggerDocHandler(rgs ...modules.RouterGroup) func(r *gin.Engine) {
 	doc := swag.New(
 		option.Title("demo接口文档"),
 		option.Version(Version),
-		option.Host("http://localhost:2222"),
+		option.Host("http://0.0.0.0:2222"),
 		option.BasePath("/godemo/v1"),
 	)
 	return func(r *gin.Engine) {
@@ -54,6 +57,7 @@ func newhttpcmd() *httpcmd {
 		Short: "HTTP对外接口服务",
 		Run: func(cmd *cobra.Command, args []string) {
 			xlog.Init(viper.GetString("logger.level"), viper.GetBool("logger.add_source"))
+			go func() { http.ListenAndServe(":6060", nil) }()
 			orm.InitConn()
 			srv := ginplus.NewGinServer()
 			srv.RegisterHandler(

@@ -2,5 +2,5 @@ package resources
 
 import "embed"
 
-//go:embed install.sql update.sql
+//go:embed *.sql
 var InstallationResource embed.FS
